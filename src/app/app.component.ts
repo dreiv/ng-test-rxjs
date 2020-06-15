@@ -17,6 +17,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.observablesService.pizzaIngredients$
       .pipe(takeUntil(this.componentDestroyed$))
       .subscribe(console.log)
+
+    this.observablesService.five$
+      .pipe(takeUntil(this.componentDestroyed$))
+      .subscribe(console.log)
+
+    this.observablesService.heroes$
+      .pipe(takeUntil(this.componentDestroyed$))
+      .subscribe(console.log)
   }
 
   ngOnDestroy() {

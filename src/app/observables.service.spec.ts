@@ -16,6 +16,10 @@ describe('ObservablesService', () => {
     })
   });
 
+  afterEach(() => {
+    scheduler.flush();
+  })
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
@@ -33,6 +37,37 @@ describe('ObservablesService', () => {
 
       expectObservable(service.pizzaIngredients$)
         .toBe(expectedMarble, expectedIngredients)
+    });
+  });
+
+  it('should emit the ingredients at the correct time', () => {
+    scheduler.run(({ expectObservable }) => {
+      const expectedMarble = '1s a 999ms b 999ms c 999ms d 999ms (e|)';
+      const expectedValues = {
+        a: 0,
+        b: 1,
+        c: 2,
+        d: 3,
+        e: 4
+      };
+
+      expectObservable(service.five$)
+        .toBe(expectedMarble, expectedValues)
+    });
+  });
+
+  it('should emit the ingredients at the correct time', () => {
+    scheduler.run(({ expectObservable }) => {
+      const expectedMarble = '1s a 999ms b 999ms c 999ms (d|)';
+      const expectedValues = {
+        a: 'Batman',
+        b: 'Spiderman',
+        c: 'Superman',
+        d: 'Ironman'
+      };
+
+      expectObservable(service.heroes$)
+        .toBe(expectedMarble, expectedValues)
     });
   });
 });
